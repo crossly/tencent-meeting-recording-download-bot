@@ -1,0 +1,13 @@
+.venv/
+__pycache__/
+*.session
+*.pyc
+.DS_Store
+.env
+*.mp4
+*.m3u8
+*.log
+brain/
+implementation_plan.md
+task.md
+walkthrough.md
