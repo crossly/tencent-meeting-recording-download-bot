@@ -3,6 +3,7 @@ import logging
 import asyncio
 import time
 from telethon import TelegramClient, events
+from telethon.sessions import StringSession
 from main import TencentMeetingDownloader
 import config
 
@@ -11,12 +12,19 @@ logger = logging.getLogger("TencentClientMode")
 current_cookie = config.DEFAULT_COOKIE
 
 async def run_client():
-    # Use sessions directory for Docker volume mount compatibility
-    session_dir = os.path.join(os.path.dirname(__file__), 'sessions')
-    os.makedirs(session_dir, exist_ok=True)
-    session_path = os.path.join(session_dir, 'tencent_session')
+    # Use StringSession if TG_SESSION_STRING is set (for containerized environments)
+    # Otherwise, fall back to file-based session
+    if config.TG_SESSION_STRING:
+        logger.info("Using StringSession from TG_SESSION_STRING environment variable")
+        session = StringSession(config.TG_SESSION_STRING)
+    else:
+        # Use sessions directory for Docker volume mount compatibility
+        session_dir = os.path.join(os.path.dirname(__file__), 'sessions')
+        os.makedirs(session_dir, exist_ok=True)
+        session = os.path.join(session_dir, 'tencent_session')
+        logger.info(f"Using file-based session at {session}")
     
-    client = TelegramClient(session_path, config.API_ID, config.API_HASH)
+    client = TelegramClient(session, config.API_ID, config.API_HASH)
 
     @client.on(events.NewMessage(pattern='/start'))
     async def start(event):

@@ -16,6 +16,9 @@ API_ID = os.getenv("TG_API_ID")
 if API_ID:
     API_ID = int(API_ID)
 API_HASH = os.getenv("TG_API_HASH", "")
+# StringSession for containerized environments (no interactive login needed)
+# Generate using: python generate_session.py
+TG_SESSION_STRING = os.getenv("TG_SESSION_STRING", "")
 
 # --- DOWNLOADER CONFIG ---
 DEFAULT_COOKIE = os.getenv("DEFAULT_COOKIE", "")
