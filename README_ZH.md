@@ -39,8 +39,9 @@ cp .env.example .env
 
 编辑 `.env` 文件：
 - `RUN_MODE`: 设置为 `BOT` 或 `CLIENT`。
-- `TELEGRAM_TOKEN`: 从 [@BotFather](https://t.me/BotFather) 获取。
-- `TG_API_ID` / `TG_API_HASH`: 从 [my.telegram.org](https://my.telegram.org) 获取。
+- `TELEGRAM_TOKEN`: 从 [@BotFather](https://t.me/BotFather) 获取（Bot 模式）。
+- `TG_API_ID` / `TG_API_HASH`: 从 [my.telegram.org](https://my.telegram.org) 获取（客户端模式）。
+- `TG_SESSION_STRING`: 用于容器环境的会话字符串（见下方说明）。
 - `DEFAULT_COOKIE`: 你的腾讯会议会话 Cookie。
 
 ### 4. 启动
@@ -51,6 +52,35 @@ python bot.py
 
 - 发送腾讯会议链接至你的 Bot 即可开始下载。
 - 在对话框中使用 `/set_cookie <新Cookie>` 可随时在线更新。
+
+## 🐳 容器部署（Docker/Coolify）
+
+在容器环境中运行**客户端模式**时，由于无法进行交互式登录，需要预先生成 Session 字符串。
+
+### 生成 Session 字符串
+
+在本地执行（仅需一次）：
+
+```bash
+python generate_session.py
+```
+
+按提示输入：
+1. API_ID 和 API_HASH
+2. 手机号码
+3. 验证码（或两步验证密码）
+
+完成后会输出一长串字符串。
+
+### 配置环境变量
+
+将生成的字符串添加到 Coolify/Docker 的环境变量中：
+
+```
+TG_SESSION_STRING=<你生成的字符串>
+```
+
+> ⚠️ **安全提示**：Session 字符串等同于登录凭证，请妥善保管，切勿泄露。
 
 ## 🛠️ 技术栈
 

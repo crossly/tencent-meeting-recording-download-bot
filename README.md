@@ -39,8 +39,9 @@ cp .env.example .env
 
 Edit `.env`:
 - `RUN_MODE`: Set to `BOT` or `CLIENT`.
-- `TELEGRAM_TOKEN`: Get from [@BotFather](https://t.me/BotFather).
-- `TG_API_ID` / `TG_API_HASH`: Get from [my.telegram.org](https://my.telegram.org).
+- `TELEGRAM_TOKEN`: Get from [@BotFather](https://t.me/BotFather) (Bot mode).
+- `TG_API_ID` / `TG_API_HASH`: Get from [my.telegram.org](https://my.telegram.org) (Client mode).
+- `TG_SESSION_STRING`: Session string for containerized environments (see below).
 - `DEFAULT_COOKIE`: Your Tencent Meeting session cookie.
 
 ### 4. Usage
@@ -51,6 +52,35 @@ python bot.py
 
 - Send any Tencent Meeting URL to your bot.
 - Use `/set_cookie <new_cookie>` to update your session on the fly.
+
+## 🐳 Container Deployment (Docker/Coolify)
+
+When running **Client mode** in a container environment, interactive login is not possible. You need to pre-generate a Session string.
+
+### Generate Session String
+
+Run locally (one-time setup):
+
+```bash
+python generate_session.py
+```
+
+You will be prompted for:
+1. API_ID and API_HASH
+2. Phone number
+3. Verification code (or 2FA password)
+
+After completion, a long string will be output.
+
+### Configure Environment Variable
+
+Add the generated string to your Coolify/Docker environment variables:
+
+```
+TG_SESSION_STRING=<your_generated_string>
+```
+
+> ⚠️ **Security Note**: The session string is equivalent to login credentials. Keep it secret and never share it.
 
 ## 🛠️ Technical Details
 
