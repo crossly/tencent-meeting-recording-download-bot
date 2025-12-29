@@ -1,0 +1,20 @@
+# ============================================
+# Tencent Meeting Recording Downloader
+# Docker Compose Configuration
+# ============================================
+
+services:
+  tencent-meeting-bot:
+    build: .
+    container_name: tencent-meeting-bot
+    restart: unless-stopped
+    env_file:
+      - .env
+    volumes:
+      # Persist downloaded files
+      - ./downloads:/app/downloads
+      # Persist Telethon session for CLIENT mode
+      - ./tencent_session.session:/app/tencent_session.session
+    # For CLIENT mode: uncomment to enable interactive login
+    # stdin_open: true
+    # tty: true

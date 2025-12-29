@@ -1,0 +1,44 @@
+# Git
+.git
+.gitignore
+.gitattributes
+
+# Environment
+.env
+*.env
+
+# Python
+__pycache__
+*.py[cod]
+*$py.class
+.Python
+*.so
+.eggs
+*.egg-info
+.pytest_cache
+.mypy_cache
+
+# IDE
+.vscode
+.idea
+*.swp
+*.swo
+
+# Session files (should be mounted, not copied)
+*.session
+*.session-journal
+
+# Temp files
+temp_segments
+downloads
+*.mp4
+*.ts
+
+# Documentation
+README*.md
+LICENSE
+
+# Docker
+Dockerfile
+docker-compose*.yml
+.dockerignore
