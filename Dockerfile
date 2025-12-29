@@ -32,8 +32,8 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copy application code
 COPY . .
 
-# Create downloads directory
-RUN mkdir -p /app/downloads && chown -R appuser:appgroup /app
+# Create directories for volumes
+RUN mkdir -p /app/downloads /app/sessions && chown -R appuser:appgroup /app
 
 # Switch to non-root user
 USER appuser

@@ -8,6 +8,8 @@ services:
     build: .
     container_name: tencent-meeting-bot
     restart: unless-stopped
+    # Run as root to avoid volume permission issues
+    user: root
     env_file:
       - .env
     volumes:
