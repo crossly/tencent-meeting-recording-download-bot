@@ -11,7 +11,12 @@ logger = logging.getLogger("TencentClientMode")
 current_cookie = config.DEFAULT_COOKIE
 
 async def run_client():
-    client = TelegramClient('tencent_session', config.API_ID, config.API_HASH)
+    # Use sessions directory for Docker volume mount compatibility
+    session_dir = os.path.join(os.path.dirname(__file__), 'sessions')
+    os.makedirs(session_dir, exist_ok=True)
+    session_path = os.path.join(session_dir, 'tencent_session')
+    
+    client = TelegramClient(session_path, config.API_ID, config.API_HASH)
 
     @client.on(events.NewMessage(pattern='/start'))
     async def start(event):

@@ -13,8 +13,8 @@ services:
     volumes:
       # Persist downloaded files
       - ./downloads:/app/downloads
-      # Persist Telethon session for CLIENT mode
-      - ./tencent_session.session:/app/tencent_session.session
+      # Persist Telethon session for CLIENT mode (directory mount)
+      - ./sessions:/app/sessions
     # For CLIENT mode: enable interactive login
     stdin_open: true
     tty: true
