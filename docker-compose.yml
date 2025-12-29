@@ -15,6 +15,6 @@ services:
       - ./downloads:/app/downloads
       # Persist Telethon session for CLIENT mode
       - ./tencent_session.session:/app/tencent_session.session
-    # For CLIENT mode: uncomment to enable interactive login
-    # stdin_open: true
-    # tty: true
+    # For CLIENT mode: enable interactive login
+    stdin_open: true
+    tty: true
