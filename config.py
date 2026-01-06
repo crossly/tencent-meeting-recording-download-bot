@@ -20,5 +20,12 @@ API_HASH = os.getenv("TG_API_HASH", "")
 # Generate using: python generate_session.py
 TG_SESSION_STRING = os.getenv("TG_SESSION_STRING", "")
 
+# Allowed chat IDs for Client mode (comma-separated)
+# Only respond to messages from these chats. Leave empty to respond to all.
+# Example: "123456789,987654321" or just "123456789"
+# To get chat ID, forward a message from the chat to @userinfobot
+_allowed_chats = os.getenv("TG_ALLOWED_CHATS", "")
+TG_ALLOWED_CHATS = [int(x.strip()) for x in _allowed_chats.split(",") if x.strip()]
+
 # --- DOWNLOADER CONFIG ---
 DEFAULT_COOKIE = os.getenv("DEFAULT_COOKIE", "")

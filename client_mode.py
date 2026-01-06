@@ -11,6 +11,13 @@ import config
 logger = logging.getLogger("TencentClientMode")
 current_cookie = config.DEFAULT_COOKIE
 
+def is_allowed_chat(event):
+    """Check if the event is from an allowed chat."""
+    if not config.TG_ALLOWED_CHATS:
+        # No restriction - allow all chats
+        return True
+    return event.chat_id in config.TG_ALLOWED_CHATS
+
 async def run_client():
     # Use StringSession if TG_SESSION_STRING is set (for containerized environments)
     # Otherwise, fall back to file-based session
@@ -23,11 +30,13 @@ async def run_client():
         os.makedirs(session_dir, exist_ok=True)
         session = os.path.join(session_dir, 'tencent_session')
         logger.info(f"Using file-based session at {session}")
-    
+
     client = TelegramClient(session, config.API_ID, config.API_HASH)
 
     @client.on(events.NewMessage(pattern='/start'))
     async def start(event):
+        if not is_allowed_chat(event):
+            return
         await event.respond(
             "👤 Client Mode (Telethon) Active!\n\n"
             "Send a Tencent URL to download (up to 2GB supported).\n\n"
@@ -38,6 +47,8 @@ async def run_client():
 
     @client.on(events.NewMessage(pattern='/set_cookie'))
     async def set_cookie(event):
+        if not is_allowed_chat(event):
+            return
         global current_cookie
         new_cookie = event.text.split(' ', 1)
         if len(new_cookie) < 2:
@@ -48,6 +59,8 @@ async def run_client():
 
     @client.on(events.NewMessage(pattern='/list'))
     async def list_recordings(event):
+        if not is_allowed_chat(event):
+            return
         parts = event.text.split(' ', 1)
         if len(parts) < 2:
             await event.respond("Usage: /list <URL>")
@@ -82,6 +95,8 @@ async def run_client():
 
     @client.on(events.NewMessage(pattern='/download_all'))
     async def download_all_recordings(event):
+        if not is_allowed_chat(event):
+            return
         parts = event.text.split(' ', 1)
         if len(parts) < 2:
             await event.respond("Usage: /download_all <URL>")
@@ -92,6 +107,8 @@ async def run_client():
 
     @client.on(events.NewMessage)
     async def handle_url(event):
+        if not is_allowed_chat(event):
+            return
         if event.text.startswith('/'): return
         url = event.text
         if "meeting.tencent.com" not in url: return
