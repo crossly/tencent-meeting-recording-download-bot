@@ -9,7 +9,9 @@
 - **双模式运行**：
   - 🤖 **Bot 模式**：使用 Telegram Bot API。自动调用 FFmpeg 将大于 50MB 的视频切分，确保无缝发送。
   - 👤 **客户端模式**：使用 Telethon (MTProto)。支持最高 2GB 的单文件直接上传。
-- **自动选流**：智能优选“屏幕共享/主画面”，无需人工干预。
+- **多录制支持**：使用 `/download_all` 命令一次下载链接中的所有录制文件。
+- **双下载模式**：同时支持多流 HLS 和直接 MP4 下载格式。
+- **自动选流**：智能优选"屏幕共享/主画面"，无需人工干预。
 - **大文件优化**：内置 FFmpeg 切分逻辑（Bot 模式）或高速 MTProto 上传（客户端模式）。
 - **会话管理**：通过 Telegram 命令轻松管理 Cookie 并支持动态更新。
 - **一键下载**：只需将录像链接发送给 Bot，即可自动完成解析与传送。
@@ -24,7 +26,7 @@
 ### 2. 安装
 
 ```bash
-git clone https://github.com/ricky/tencent-meeting-recording-for-mp4.git
+git clone https://github.com/nickyoung-github/tencent-meeting-recording-for-mp4.git
 cd tencent-meeting-recording-for-mp4
 pip install -r requirements.txt
 ```
@@ -50,8 +52,20 @@ cp .env.example .env
 python bot.py
 ```
 
-- 发送腾讯会议链接至你的 Bot 即可开始下载。
-- 在对话框中使用 `/set_cookie <新Cookie>` 可随时在线更新。
+**Bot 命令：**
+- 发送任意腾讯会议链接即可下载第一个录制
+- `/list <URL>` - 列出所有可用的录制
+- `/download_all <URL>` - 下载链接中的所有录制
+- `/set_cookie <新Cookie>` - 更新会话 Cookie
+
+**命令行用法：**
+```bash
+# 下载第一个录制
+python main.py <URL>
+
+# 下载所有录制
+python main.py --all <URL>
+```
 
 ## 🐳 容器部署（Docker/Coolify）
 
@@ -90,6 +104,10 @@ TG_SESSION_STRING=<你生成的字符串>
 | **Bot 框架** | python-telegram-bot |
 | **用户客户端** | Telethon (MTProto) |
 | **视频处理** | FFmpeg |
+
+## 📋 更新日志
+
+查看 [CHANGELOG.md](CHANGELOG.md) 了解版本历史。
 
 ## 🤝 贡献说明
 

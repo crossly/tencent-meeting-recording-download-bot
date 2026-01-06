@@ -9,6 +9,8 @@ A powerful, automated tool to download Tencent Meeting recordings. Supports both
 - **Dual Mode Operation**:
   - 🤖 **Bot Mode**: Uses Telegram Bot API. Automatically splits videos >50MB using FFmpeg for seamless delivery.
   - 👤 **Client Mode**: Uses Telethon (MTProto). Supports single-file uploads up to 2GB.
+- **Multi-Recording Support**: Download all recordings from a single URL with `/download_all` command.
+- **Dual Download Modes**: Supports both multi-stream HLS and direct MP4 download formats.
 - **Automated Stream Selection**: Intelligent selection of "Screen Share/Main Stream" without manual intervention.
 - **Large File Support**: Built-in FFmpeg splitting (Bot mode) or high-speed MTProto upload (Client mode).
 - **Session Management**: Easy cookie management and dynamic updates via Telegram commands.
@@ -24,7 +26,7 @@ A powerful, automated tool to download Tencent Meeting recordings. Supports both
 ### 2. Installation
 
 ```bash
-git clone https://github.com/ricky/tencent-meeting-recording-for-mp4.git
+git clone https://github.com/nickyoung-github/tencent-meeting-recording-for-mp4.git
 cd tencent-meeting-recording-for-mp4
 pip install -r requirements.txt
 ```
@@ -50,8 +52,20 @@ Edit `.env`:
 python bot.py
 ```
 
-- Send any Tencent Meeting URL to your bot.
-- Use `/set_cookie <new_cookie>` to update your session on the fly.
+**Bot Commands:**
+- Send any Tencent Meeting URL to download the first recording
+- `/list <URL>` - List all available recordings
+- `/download_all <URL>` - Download all recordings from a URL
+- `/set_cookie <new_cookie>` - Update your session cookie
+
+**CLI Usage:**
+```bash
+# Download first recording
+python main.py <URL>
+
+# Download all recordings
+python main.py --all <URL>
+```
 
 ## 🐳 Container Deployment (Docker/Coolify)
 
@@ -90,6 +104,10 @@ TG_SESSION_STRING=<your_generated_string>
 | **Bot Framework** | python-telegram-bot |
 | **User Client** | Telethon (MTProto) |
 | **Video Processing** | FFmpeg |
+
+## 📋 Changelog
+
+See [CHANGELOG.md](CHANGELOG.md) for version history.
 
 ## 🤝 Contributing
 
