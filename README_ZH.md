@@ -26,8 +26,8 @@
 ### 2. 安装
 
 ```bash
-git clone https://github.com/nickyoung-github/tencent-meeting-recording-for-mp4.git
-cd tencent-meeting-recording-for-mp4
+git clone https://github.com/crossly/tencent-meeting-recording-download-bot.git
+cd tencent-meeting-recording-download-bot
 pip install -r requirements.txt
 ```
 
